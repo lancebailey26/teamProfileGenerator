@@ -4,10 +4,11 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const fs = require("fs");
-var teamArray = [];
+const internal = require("stream");
+var team = [{}];
 
 function inquire(){
-    const response = inquirer
+    inquirer
         .prompt([
             {
             type: 'input',
@@ -34,7 +35,47 @@ function inquire(){
                      "Manager",
                 ]
             }
-        ]);
-}
+            
+        ])
+        .then((answers) => {
+            if (answers.role === "Engineer"){
+                inquirer
+                .prompt([
+                    {
+                       type:'input',
+                       name:'github',
+                       message:"enter github: ", 
+                    }
+                ])
+                const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+                team.push(engineer)
+                
+            } else if (answers.role === "Manager"){
+                inquirer
+                .prompt([
+                    {
+                       type:'input',
+                       name:'officeNumber',
+                       message:"office number: ", 
+                    }
+                ])
+                const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+                team.push(manager)
+            } else if (answers.role === "Intern"){
+                inquirer
+                .prompt([
+                    {
+                       type:'input',
+                       name:'school',
+                       message:"school: ", 
+                    }
+                ])
+                const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+                team.push(intern)
+             };
+        })
+    }
+
 
 inquire();
+
