@@ -4,78 +4,149 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const fs = require("fs");
-const internal = require("stream");
-var team = [{}];
+const htmlBase = require("./src/baseHTML");
+const team = [];
 
-function inquire(){
-    inquirer
-        .prompt([
-            {
-            type: 'input',
-            name:'name',
-            message:"Name: ",
-            },
-            {
-            type: 'input',
-            name: "id",
-            message:"ID: "
-            },
-            {
-            type: 'input',
-            name:'email',
-            message:"Email: ",
-            },
-            {
-                type: 'list',
-                name: 'role',
-                message: "Role: ",
-                choices: [
-                     "Engineer",
-                     "Intern",
-                     "Manager",
-                ]
-            }
-            
-        ])
-        .then((answers) => {
-            if (answers.role === "Engineer"){
-                inquirer
-                .prompt([
-                    {
-                       type:'input',
-                       name:'github',
-                       message:"enter github: ", 
-                    }
-                ])
-                const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-                team.push(engineer)
-                
-            } else if (answers.role === "Manager"){
-                inquirer
-                .prompt([
-                    {
-                       type:'input',
-                       name:'officeNumber',
-                       message:"office number: ", 
-                    }
-                ])
-                const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-                team.push(manager)
-            } else if (answers.role === "Intern"){
-                inquirer
-                .prompt([
-                    {
-                       type:'input',
-                       name:'school',
-                       message:"school: ", 
-                    }
-                ])
-                const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-                team.push(intern)
-             };
-        })
+const managerQ = [
+    {
+        type: "input",
+        name: "name",
+        message: "name: ",
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "ID: ",
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "email: ",
+    },
+    {
+        type: "input",
+        name: "officeNum",
+        message: "office number: "
+    },
+]
+const engineerQ = [
+    {
+        type: "input",
+        name: "name",
+        message: "name: ",
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "ID: ",
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "email: ",
+    },
+    {
+        type: "input",
+        name: "github",
+        message: "github",
     }
-
-
-inquire();
+]
+const internQ = [
+    {
+        type: "input",
+        name: "name",
+        message: "name: ",
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "ID: ",
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "email: ",
+    },
+    {
+        type: "input",
+        name: "school",
+        message: "school: ",
+    }
+]
+const ezEmployee = [
+    {
+        type: 'list',
+        name: 'role',
+        message: "Select a Role: ",
+        choices: [
+            "Engineer",
+            "Intern",
+            "Manager",
+            "All Done"
+        ]
+    }
+]
+function createManager() {
+    inquirer.prompt
+        (managerQ)
+        .then((answers) => {
+            team[team.length] = new Manager(
+                answers.name,
+                answers.id,
+                answers.email,
+                answers.officeNum
+            );
+            firstQ();
+        });
+}
+function createEngineer() {
+    inquirer.prompt
+        (engineerQ)
+        .then((answers) => {
+            team[team.length] = new Engineer(
+                answers.name,
+                answers.id,
+                answers.email,
+                answers.github
+            );
+            firstQ();
+        });
+}
+function createIntern() {
+    inquirer.prompt
+        (internQ)
+        .then((answers) => {
+            team[team.length] = new Intern(
+                answers.name,
+                answers.id,
+                answers.email,
+                answers.school
+            );
+            firstQ();
+        });
+}
+function writeIt(data) {
+    let html = htmlBase(data);
+    fs.writeFile('./dist/index.html', html, (err) =>
+            err ? console.log(err) : console.log('generated')
+            );   
+}
+function firstQ() {
+    inquirer.prompt(ezEmployee).then((answers) => {
+        switch (answers.role) {
+            case "Manager":
+                createManager();
+                break;
+            case "Intern":
+                createIntern();
+                break;
+            case "Engineer":
+                createEngineer();
+                break;
+            case "All Done":
+                writeIt(team);
+        }
+    });
+}
+firstQ();
 
