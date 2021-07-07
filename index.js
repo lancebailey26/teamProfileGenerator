@@ -25,7 +25,7 @@ const managerQ = [
     },
     {
         type: "input",
-        name: "officeNum",
+        name: "officeNumber",
         message: "office number: "
     },
 ]
@@ -48,7 +48,7 @@ const engineerQ = [
     {
         type: "input",
         name: "github",
-        message: "github",
+        message: "github username: ",
     }
 ]
 const internQ = [
