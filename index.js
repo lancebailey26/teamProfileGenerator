@@ -48,7 +48,7 @@ const engineerQ = [
     {
         type: "input",
         name: "github",
-        message: "github username: ",
+        message: "github username:",
     }
 ]
 const internQ = [
@@ -128,7 +128,7 @@ function createIntern() {
 function writeIt(answers) {
     let html = htmlBase(answers);
     fs.writeFile('./dist/index.html', html, (err) =>
-            err ? console.log(err) : console.log('generated')
+            err ? console.log(err) : console.log('team profile generated')
             );   
 }
 function firstQ() {
