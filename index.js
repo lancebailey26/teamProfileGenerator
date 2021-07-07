@@ -94,7 +94,7 @@ function createManager() {
                 answers.name,
                 answers.id,
                 answers.email,
-                answers.officeNum
+                answers.officeNumber
             );
             firstQ();
         });
@@ -125,8 +125,8 @@ function createIntern() {
             firstQ();
         });
 }
-function writeIt(data) {
-    let html = htmlBase(data);
+function writeIt(answers) {
+    let html = htmlBase(answers);
     fs.writeFile('./dist/index.html', html, (err) =>
             err ? console.log(err) : console.log('generated')
             );   
