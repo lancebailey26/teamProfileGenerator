@@ -1,3 +1,4 @@
+//requirements (classes, inquirer etc.)
 const Manager = require("./lib/Manager");
 const Employee = require("./lib/Employee");
 const Engineer = require("./lib/Engineer");
@@ -5,8 +6,9 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const fs = require("fs");
 const htmlBase = require("./src/baseHTML");
+//empty team array
 const team = [];
-
+//manager questions
 const managerQ = [
     {
         type: "input",
@@ -29,6 +31,7 @@ const managerQ = [
         message: "office number: "
     },
 ]
+//engineer questions
 const engineerQ = [
     {
         type: "input",
@@ -51,6 +54,7 @@ const engineerQ = [
         message: "github username:",
     }
 ]
+//intern questions
 const internQ = [
     {
         type: "input",
@@ -73,6 +77,7 @@ const internQ = [
         message: "school: ",
     }
 ]
+//role defining question
 const ezEmployee = [
     {
         type: 'list',
@@ -86,6 +91,7 @@ const ezEmployee = [
         ]
     }
 ]
+//take data from prompts based on role and add to team array
 function createManager() {
     inquirer.prompt
         (managerQ)
@@ -125,12 +131,14 @@ function createIntern() {
             firstQ();
         });
 }
+//write html file with data in team array
 function writeIt(answers) {
     let html = htmlBase(answers);
     fs.writeFile('./dist/index.html', html, (err) =>
             err ? console.log(err) : console.log('team profile generated')
             );   
 }
+//initial question, selects prompts based on role input, or ends if all done is selected
 function firstQ() {
     inquirer.prompt(ezEmployee).then((answers) => {
         switch (answers.role) {

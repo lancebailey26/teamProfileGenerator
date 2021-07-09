@@ -1,3 +1,4 @@
+//take in data from team array
 function employedPeople(team){
     let returner = "";
     team.forEach((employee) => {
@@ -5,6 +6,7 @@ function employedPeople(team){
 });
 return returner;
 }
+//render card content based on role
 function cardContent(employee){
     let returner = ""
     let role = employee.getRole();
@@ -24,6 +26,8 @@ function cardContent(employee){
     }
     return returner
 }
+
+//select card title background color
 function cardTitle(employee){
     let returner = "";
     let role = employee.getRole()
@@ -40,7 +44,7 @@ function cardTitle(employee){
     }
     return returner;
 }
-
+//card icon selector
 function cardIcon(employee){
     let returner = "";
     let role = employee.getRole()
@@ -65,7 +69,7 @@ function cardIcon(employee){
     }
     return returner;
 }
-
+//render card for each employee
 function cardCreator(employee){
     let returner = `
     <div class="card" style="width: 18rem;">
@@ -79,7 +83,7 @@ function cardCreator(employee){
   </div>`
   return returner
 }
-
+//the bulk html + any created cards
 function generateHTML(employee){
    const generatedHTML =  
 `<!DOCTYPE html>
